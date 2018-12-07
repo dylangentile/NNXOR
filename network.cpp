@@ -53,6 +53,8 @@ Network::networkInit(int *nodes){ //in order for this to work a 4 value array mu
 	for(int i = 0; i < numofHiddenNodeLayers; i++){
 		cout << "HiddenNodeLayer" << i + 1 << ": " << numofHiddenNodesPerLayer[i] << '\n'; 
 	}
-	cout << "Out: " << numofOutNodes << '\n';
+	cout << "Out: " << numofOutNodes << "\n\n\n";
+
+	
 
 }

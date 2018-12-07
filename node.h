@@ -19,7 +19,10 @@ class Node
 public:
 	Node();
 	~Node();
-int input1, input2;
+	int mlayer;
+	NodeType myType;
+	int myConnections;
+	
 
 
 private:
