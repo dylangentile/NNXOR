@@ -1,2 +1,2 @@
 # NNXOR
-Neural Network Learns XOR Projecy
+Neural Network Learns XOR Project
