@@ -42,7 +42,7 @@ SRCS = main.cpp network.cpp node.cpp
 OBJS = $(SRCS:.c=.o)
 
 # define the executable file 
-MAIN = nxxor
+MAIN = nnxor
 
 #
 # The following part of the makefile is generic; it can be used to 

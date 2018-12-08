@@ -18,17 +18,15 @@ class Node
 
 public:
 	Node();
-	~Node();
-	int mlayer;
-	NodeType myType;
-	int myConnections;
-	
-
+	~Node();	
+	void nodeInit(NodeType tmpType, int tmpConnections, int tmpID);
 
 private:
 
-
-
+	NodeType mType;
+	int mConnections, mNodeID;
+	int *mWeights;
+	int bias;
 
 private:
 	
