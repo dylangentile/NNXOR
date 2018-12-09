@@ -13,7 +13,7 @@ CFLAGS = -Wall -g
 
 # define any directories containing header files other than /usr/include
 #
-INCLUDES = -I../NNXOR
+INCLUDES = -I../include
 #-I/include
 
 # define library paths in addition to /usr/lib

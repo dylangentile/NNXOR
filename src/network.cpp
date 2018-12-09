@@ -59,14 +59,14 @@ Network::networkInit(int *nodes){ //in order for this to work a 4 value array mu
 		numofLayers++;
 
 	}
-	numofLayers = numofLayers - 1;
+	//numofLayers = numofLayers - 1;
 	numofInNodes = nodes[0];
-	numofOutNodes = nodes[numofLayers];
+	numofOutNodes = nodes[numofLayers - 1];
 	int numofHiddenNodesPerLayer[numofHiddenNodeLayers]; //ordered by layer;
 
-	for (int i = 0; i < (numofLayers - 1); i++) //x minus 1 since x is the output layer and this counts from zero when the hidden node layers start at node layer 1;
+	for (int i = 1; i < (numofLayers - 1); i++) //x minus 1 since x is the output layer and this counts from zero when the hidden node layers start at node layer 1;
 	{
-		numofHiddenNodesPerLayer[i] = nodes[i + 1];
+		numofHiddenNodesPerLayer[i] = nodes[i];
 	}
 	int numofHiddenNodes;
 	for (int i = 0; i < numofHiddenNodeLayers; i++)
@@ -109,7 +109,7 @@ Network::networkInit(int *nodes){ //in order for this to work a 4 value array mu
 			lLayerType = mNode_INPUT;
 			fillNodes = numofInNodes;
 		}
-		else if (numofLayers - i == 1)
+		else if (numofLayers == i)
 		{
 			lLayerType = mNode_OUTPUT;
 			fillNodes = numofOutNodes;
