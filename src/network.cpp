@@ -1,4 +1,5 @@
 #include "network.h"
+#include <iostream>
 
 Layer::Layer(){
 
@@ -17,18 +18,52 @@ Layer::~Layer(){
 void
 Layer::layerInit(int layerID, int mNodes, int mPrevmNodes, NodeType layerType){ //mPrevmNodes means in Layer[i-1] how many nodes are there. IE How many connections does each node have;
 	myNodes = mNodes;
-
+	prevNodes = mPrevmNodes;
 	nodeLayer = new Node[mNodes];
 	mLayerType = layerType;
 	for(int i = 0; i < mNodes; i++){
-		nodeLayer[i].nodeInit(mLayerType, mPrevmNodes, i);
+		nodeLayer[i].nodeInit(mLayerType, prevNodes, i);
 	}
-	outputArray = new int[mNodes];
+	outputArray = new double[mNodes];
 	for(int i = 0; i < mNodes; i++){
 		outputArray[i] = 1;
 	}
 }
 
+void
+Layer::input(double *inputs){
+	if(mLayerType == mNode_INPUT){
+		for(int j = 0; j < myNodes; j++)
+		{
+			outputArray[j] = inputs[j]; // in theory we should be reading from the node output function but that step is skipped since these are the input nodes.
+			nodeLayer[j].mInput(inputs[j], 1);
+		}
+	} 
+	else
+	{
+		for (int i = 0; i < myNodes; i++)
+		{
+			for(int j = 0; j < prevNodes; j++)
+			{
+				nodeLayer[i].mInput(inputs[j], j);
+			}
+		}
+	}
+}
+
+double 
+*Layer::output(){
+	if(mLayerType == mNode_INPUT){
+		return outputArray; //overides whatever data is stored.
+	} 
+	else
+	{
+		for(int i = 0; i < myNodes; i++){
+			outputArray[i] = nodeLayer[i].mOutput();
+		}
+		return outputArray;
+	}	
+}
 
 
 Network::Network(){
@@ -59,14 +94,14 @@ Network::networkInit(int *nodes){ //in order for this to work a 4 value array mu
 		numofLayers++;
 
 	}
-	//numofLayers = numofLayers - 1;
+
 	numofInNodes = nodes[0];
 	numofOutNodes = nodes[numofLayers - 1];
 	int numofHiddenNodesPerLayer[numofHiddenNodeLayers]; //ordered by layer;
 
-	for (int i = 1; i < (numofLayers - 1); i++) //x minus 1 since x is the output layer and this counts from zero when the hidden node layers start at node layer 1;
+	for (int i = 0; i < numofHiddenNodeLayers; i++)
 	{
-		numofHiddenNodesPerLayer[i] = nodes[i];
+        numofHiddenNodesPerLayer[i] = nodes[i + 1]; //plus one since we're counting from 0 hidden layers but the first hidden layer is nodes[1] not nodes[0];
 	}
 	int numofHiddenNodes;
 	for (int i = 0; i < numofHiddenNodeLayers; i++)
@@ -74,28 +109,7 @@ Network::networkInit(int *nodes){ //in order for this to work a 4 value array mu
 		numofHiddenNodes = numofHiddenNodes + nodes[i+1];
 	}
 
-	//int totalnodes = numofInNodes + numofHiddenNodes + numofOutNodes;
-
-	/*
-	//Various tests;
-	cout << "\nTotal Nodes: " << numofInNodes + numofOutNodes + numofHiddenNodes << "\nIn: " << numofInNodes;
-	cout << "\n";
-
-	for(int i = 0; i < numofHiddenNodeLayers; i++){
-		cout << "HiddenNodeLayer" << i + 1 << ": " << numofHiddenNodesPerLayer[i] << '\n'; 
-	}
-	cout << "Out: " << numofOutNodes << "\n\n\n";
-	
-	Node *testNode = new Node[totalnodes];
-	for(int i = 0; i < totalnodes; i++ ){
-		testNode[i].mLayer = i*i;
-	}
-
-	for(int i = 0; i <totalnodes; i++){
-		testNode[i].printme();
-	}
-	*/
-	//create iyr layers;
+	//create the layers;
 	myLayers = new Layer[numofLayers];
 	NodeType lLayerType;
 	int fillNodes;
@@ -109,7 +123,7 @@ Network::networkInit(int *nodes){ //in order for this to work a 4 value array mu
 			lLayerType = mNode_INPUT;
 			fillNodes = numofInNodes;
 		}
-		else if (numofLayers == i)
+		else if (numofLayers-1 == i)
 		{
 			lLayerType = mNode_OUTPUT;
 			fillNodes = numofOutNodes;
@@ -129,12 +143,43 @@ Network::networkInit(int *nodes){ //in order for this to work a 4 value array mu
 
 
 		myLayers[i].layerInit(i, fillNodes, prevnodes, lLayerType);
+		layercount = numofLayers;
 
 	}
+}
 
-
+void
+Network::run(double *inputs){
+	double *outputs = inputs;
+    int i;
+	for(i = 0; i < layercount - 1; i++){
+		myLayers[i].input(outputs);
+		outputs = myLayers[i].output();
+	}
+    myLayers[i].input(outputs);
+    double *results;
+    results = myLayers[i].output();
+	std::cout << results[0] << '\n';
 
 
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

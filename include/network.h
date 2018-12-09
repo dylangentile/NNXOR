@@ -7,11 +7,14 @@ public:
 	Layer();
 	~Layer();
 	void layerInit(int layerID, int mNodes, int mPrevmNodes, NodeType layerType);
+	void input(double *inputs);
 	int myNodes;
+	double *output();
 private:
 	NodeType mLayerType;
-	int *outputArray;
+	double *outputArray;
 	Node *nodeLayer;
+	int prevNodes;
 
 }; 
 
@@ -22,7 +25,8 @@ public:
 	Network();
 	~Network();
 	void networkInit(int *nodes);
-
+	void run(double *inputs);
+	int layercount;
 private:
 	Layer *myLayers;
 };
