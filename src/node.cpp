@@ -1,6 +1,7 @@
 #include "node.h"
 #include "function.h"
 #include <random>
+#include <fstream>
 
 
 
@@ -19,7 +20,7 @@ void
 Node::nodeInit(NodeType tmpType, int tmpConnections, int tmpID){
 	mType = tmpType;
 	mConnections = tmpConnections;
-	mNodeID = tmpID;
+	mLayerNodeID = tmpID;
 	outputTerms = new double[mConnections];
     std::mt19937 rng;
     rng.seed(std::random_device()());

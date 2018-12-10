@@ -24,8 +24,10 @@ class Network
 public:
 	Network();
 	~Network();
+	double *results;
 	void networkInit(int *nodes);
 	void run(double *inputs);
+	void learn();
 	int layercount;
 private:
 	Layer *myLayers;

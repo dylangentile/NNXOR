@@ -1,5 +1,5 @@
 #pragma once
-
+#include "trainer.h"
 
 typedef enum
 {
@@ -22,10 +22,12 @@ public:
 	void nodeInit(NodeType tmpType, int tmpConnections, int tmpID);
 	void mInput(double in, int conns);
 	double mOutput();
+	friend class Trainer;
+	int mID;
 private:
 
 	NodeType mType;
-	int mConnections, mNodeID;
+	int mConnections, mLayerNodeID;
 	double *mWeights;
 	double bias;
 	double *outputTerms;

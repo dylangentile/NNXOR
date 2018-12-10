@@ -157,14 +157,16 @@ Network::run(double *inputs){
 		outputs = myLayers[i].output();
 	}
     myLayers[i].input(outputs);
-    double *results;
     results = myLayers[i].output();
-	std::cout << results[0] << '\n';
+}
+void
+Network::learn(){
 
 
 
 
 }
+
 
 
 
