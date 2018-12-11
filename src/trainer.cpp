@@ -21,6 +21,9 @@ Trainer::~Trainer(){
 
 }
 
+
+
+
 void
 Trainer::cost(double *inputs, int numberofin, double *outputs, int numberofout){
 	double *dcost_dpred = new double[2];
@@ -29,7 +32,7 @@ Trainer::cost(double *inputs, int numberofin, double *outputs, int numberofout){
 	{ //extra brackets to delete the i variable.
 	int i;
 	for (i = 0; i < numberofout; i++){
-		cost += std::pow((outputs[i] - ans), 2);
+		cost += std::pow((outputs[i] - ans), 2); //this is wrong...
 	}
 	cost = cost * (1/i);
 	}
@@ -44,8 +47,17 @@ Trainer::cost(double *inputs, int numberofin, double *outputs, int numberofout){
 }
 
 void
-Trainer::train(){
+Trainer::training(){
+	Data *dataArray = getNodeInfo();
 
+	for (int j = 0; j < 5; j++){
+		std::cout << '\n' << j << ": ";
+		int i = 0;
+		for(i = 0; i < 2; i++){
+			std::cout << dataArray->nodeSet[j][i] << ", ";
+		}
+		std::cout << dataArray->nodeSet[j][i];
+	}
 	
 
 }

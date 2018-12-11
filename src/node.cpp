@@ -2,8 +2,6 @@
 #include "function.h"
 #include <iostream>
 
-
-
 Node::Node(){
 
 
@@ -45,6 +43,7 @@ Node::nodeInit(NodeType tmpType, int tmpConnections, int tmpID){
     {
         mWeights = new double[1];
         mWeights[0] = 0;
+        mWeights[1] = 0;
         bias = 0;
     }
     std::cout << mID << ": ";
@@ -52,9 +51,9 @@ Node::nodeInit(NodeType tmpType, int tmpConnections, int tmpID){
 
     	std::cout << mWeights[i] << ", ";
 	}
-	std::cout << '\n';
+	std::cout << bias << '\n';
 
-	nodeFill(mWeights, bias);
+	nodeFill(mWeights, bias, mID);
 }
 
 void

@@ -39,9 +39,7 @@ Data::~Data(){
 
 }
 void
-Data::setArray(int x, int y){
-	//nodeSet = new double[][y];
-
+Data::setArray(){
 
 
 }
@@ -68,25 +66,36 @@ int returnID(){
 
 void insNodesTotal(int y){
 	mydata->totalNodes = y;
-	int alloc = mydata->wsPerNode + 2;
-	mydata->setArray(y, alloc);
+	//int alloc = mydata->wsPerNode + 2;
+	mydata->setArray();
 
 }
 
 
-void nodeFill(double *weights, double bias){
+void nodeFill(double *weights, double bias, int nodeId){
 	/*for(int i = 0; i < mydata->wsPerNode; i++){
 		mydata->nodeSet[mydata->id][i] = weights[i];
 	}
 	mydata->nodeSet[mydata->id][mydata->wsPerNode] = bias;
 	mydata->nodeSet[mydata->id][mydata->wsPerNode+1] = 0;
 */
+	mydata->setArray();
+	for(int i = 0; i < 2; i++){
+		mydata->nodeSet[nodeId][i] = weights[i];
+	}
+	mydata->nodeSet[nodeId][2] = bias;
 
 }
 
 unsigned long randomNum(int x, int y){
 	return mydata->rnd() % x + y;
 }
+
+Data*
+getNodeInfo(){
+	return mydata;
+}
+
 
 void cleanup(){
 	delete mydata;
