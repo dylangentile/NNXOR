@@ -1,6 +1,8 @@
 #include "network.h"
 #include <iostream>
 
+
+
 Layer::Layer(){
 
 
@@ -69,11 +71,9 @@ double
 Network::Network(){
 
 
-
 }
 
 Network::~Network(){
-
 
 
 }
@@ -146,6 +146,8 @@ Network::networkInit(int *nodes){ //in order for this to work a 4 value array mu
 		layercount = numofLayers;
 
 	}
+	insNodesTotal(numofInNodes + numofOutNodes + numofHiddenNodes);
+
 }
 
 void

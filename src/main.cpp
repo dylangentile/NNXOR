@@ -27,13 +27,15 @@ int main(int argc, char const *argv[])
 
 	myNeuralNetwork->networkInit(nodearray);
 	myNeuralNetwork->run(inputarray);
-	cout <<myNeuralNetwork->results[0];
+	cout << myNeuralNetwork->results[0] << '\n';
 	myTrainer->cost(inputarray,nodearray[0],myNeuralNetwork->results, nodearray[zz-1]);
     /*double testme = 25.0;
     std::cout << '\n' << activation((testme * activation(testme + testme)) + (testme * activation(testme + testme))) << '\n';
     //std::cout << '\n' << 4*(testme*testme) << '\n';
      
      */
+
+    cleanup();
 	return 0;
 }
 

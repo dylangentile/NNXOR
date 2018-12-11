@@ -1,5 +1,7 @@
 #pragma once
+#include "function.h"
 #include "node.h"
+
 
 class Layer
 {

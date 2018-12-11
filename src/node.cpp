@@ -1,7 +1,7 @@
 #include "node.h"
 #include "function.h"
 #include <random>
-#include <fstream>
+#include <iostream>
 
 
 
@@ -18,6 +18,7 @@ Node::~Node(){
 
 void 
 Node::nodeInit(NodeType tmpType, int tmpConnections, int tmpID){
+	mID = returnID();
 	mType = tmpType;
 	mConnections = tmpConnections;
 	mLayerNodeID = tmpID;
@@ -39,6 +40,14 @@ Node::nodeInit(NodeType tmpType, int tmpConnections, int tmpID){
         mWeights[0] = 0;
         bias = 0;
     }
+    std::cout << mID << ": ";
+    for(int i = 0; i < mConnections; i++){
+
+    	std::cout << mWeights[i] << ", ";
+	}
+	std::cout << '\n';
+
+	nodeFill(mWeights, bias);
 }
 
 void
