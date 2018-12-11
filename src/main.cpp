@@ -8,6 +8,7 @@ using namespace std;
 
 int main(int argc, char const *argv[])
 {
+
 	int nodearray[4] = {2,2,1,-1}; //for now max of 3 layers.
     double *inputarray;
     inputarray = new double[nodearray[0]];

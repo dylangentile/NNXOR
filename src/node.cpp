@@ -1,11 +1,14 @@
 #include "node.h"
 #include "function.h"
-#include <random>
 #include <iostream>
 
 
 
 Node::Node(){
+
+
+
+
 
 }
 
@@ -19,20 +22,24 @@ Node::~Node(){
 void 
 Node::nodeInit(NodeType tmpType, int tmpConnections, int tmpID){
 	mID = returnID();
+ 
 	mType = tmpType;
 	mConnections = tmpConnections;
 	mLayerNodeID = tmpID;
 	outputTerms = new double[mConnections];
+    /*
+    //unix method
     std::mt19937 rng;
     rng.seed(std::random_device()());
     std::uniform_int_distribution<std::mt19937::result_type> dist6(2,99);
-	//std::srand(time(NULL));
-    if(mConnections != 0){
+    int random = dist6();
+	*/
+        if(mConnections != 0){
         mWeights = new double[mConnections];
         for(int i = 0; i < mConnections; i++){
-            mWeights[i] = dist6(rng);
+            mWeights[i] = randomNum(99, 1);
         }
-        bias = dist6(rng);
+        bias = randomNum(99, 1);
     }
     else
     {

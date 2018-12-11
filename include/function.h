@@ -10,9 +10,14 @@ public:
 	int id,wsPerNode;
 	double *nodeSet;
 	int totalNodes;
-
-
+	unsigned long seed;
+	unsigned long rnd();
+private:
+	
 };
+
+
+unsigned long randomNum(int x, int y);
 
 double activation(long double x);
 void insNodesTotal(int y);
