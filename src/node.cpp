@@ -35,9 +35,9 @@ Node::nodeInit(NodeType tmpType, int tmpConnections, int tmpID){
         if(mConnections != 0){
         mWeights = new double[mConnections];
         for(int i = 0; i < mConnections; i++){
-            mWeights[i] = randomNum(99, 1);
+            mWeights[i] = (double)randomNum(99, 1) / (double)100.0;
         }
-        bias = randomNum(99, 1);
+        bias = (double)randomNum(99, 1)/ (double)100.0;
     }
     else
     {
