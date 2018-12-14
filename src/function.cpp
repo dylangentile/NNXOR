@@ -2,6 +2,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <ctime>
+#include <unistd.h>
 #include <random>   
 
 using namespace std;

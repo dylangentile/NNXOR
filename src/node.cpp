@@ -25,14 +25,7 @@ Node::nodeInit(NodeType tmpType, int tmpConnections, int tmpID){
 	mConnections = tmpConnections;
 	mLayerNodeID = tmpID;
 	outputTerms = new double[mConnections];
-    /*
-    //unix method
-    std::mt19937 rng;
-    rng.seed(std::random_device()());
-    std::uniform_int_distribution<std::mt19937::result_type> dist6(2,99);
-    int random = dist6();
-	*/
-        if(mConnections != 0){
+     if(mConnections != 0){
         mWeights = new double[mConnections];
         for(int i = 0; i < mConnections; i++){
             mWeights[i] = (double)randomNum(99, 1) / (double)100.0;
