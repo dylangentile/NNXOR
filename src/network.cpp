@@ -27,7 +27,7 @@ Layer::layerInit(int layerID, int mNodes, int mPrevmNodes, NodeType layerType){ 
 		nodeLayer[i].nodeInit(mLayerType, prevNodes, i);
 	}
 	outputArray = new double[mNodes];
-	for(int i = 0; i < mNodes; i++){
+	for (int i = 0; i < mNodes; i++){
 		outputArray[i] = 1;
 	}
 }

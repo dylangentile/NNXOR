@@ -29,7 +29,7 @@ LIBS =
 #-lmylib -lm
 
 # define the C source files
-SRCS = main.cpp network.cpp node.cpp function.cpp trainer.cpp
+SRCS = main.cpp network.cpp node.cpp function.cpp
 
 # define the C object files 
 #
