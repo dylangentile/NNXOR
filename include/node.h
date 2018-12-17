@@ -22,6 +22,9 @@ public:
 	void mInput(double in, int conns);
 	double mOutput();
 	int mID;
+	double mNet, ans;
+	double fetchWeight(int x);
+	void newWeight(int whichWeight, double newValue);
 private:
 
 	NodeType mType;

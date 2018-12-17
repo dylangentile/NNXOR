@@ -12,6 +12,10 @@ public:
 	void input(double *inputs);
 	int myNodes;
 	double *output();
+	double getNet(int x);
+	double getAns(int x);
+	double getWeight(int x, int whichNode);
+	void writeWeight(double newWeight, int whichWeight, int whichNode);
 private:
 	NodeType mLayerType;
 	double *outputArray;
@@ -29,7 +33,7 @@ public:
 	double *results;
 	void networkInit(int *nodes);
 	void run(double *inputs);
-	void learn();
+	void learn(double target, double learningRate);
 	int layercount;
 private:
 	Layer *myLayers;

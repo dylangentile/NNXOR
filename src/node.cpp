@@ -61,7 +61,20 @@ Node::mOutput(){
 		result += outputTerms[i];
 	}
     result += bias;
-    double ans = activation(result);
+    mNet = result;
+    ans = activation(result);
 	return ans;
 
 }
+
+double
+Node::fetchWeight(int x){
+    return mWeights[x];
+}
+
+
+void 
+Node::newWeight(int whichWeight, double newValue){
+    mWeights[whichWeight] = newValue;
+}
+

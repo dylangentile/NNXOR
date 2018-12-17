@@ -3,6 +3,11 @@
 
 
 
+
+
+
+
+
 Layer::Layer(){
 
 
@@ -65,6 +70,26 @@ double
 		}
 		return outputArray;
 	}	
+}
+
+double
+Layer::getNet(int x){
+	return nodeLayer[x].mNet;
+}
+
+double
+Layer::getAns(int x){
+	return nodeLayer[x].ans;
+}
+
+double 
+Layer::getWeight(int x, int whichNode){
+	return nodeLayer[whichNode].fetchWeight(x);
+}
+
+void
+Layer::writeWeight(double newWeight, int whichWeight, int whichNode){
+	nodeLayer[whichNode].newWeight(whichWeight, newWeight);
 }
 
 
@@ -162,11 +187,30 @@ Network::run(double *inputs){
     results = myLayers[i].output();
 }
 void
-Network::learn(){
-
-
-
-
+Network::learn(double target, double learningRate){
+	double sqError = (1.0/2.0)*((target - results[0])*(target - results[0]));
+	std::cout << "\n\nSquared Error: " << sqError;
+	//double totalError = sqError;
+	//double net = myLayers[2].getNet(0);
+	double dError_dOut = results[0] - target;
+	double dOut_dNet = results[0] * (1 - results[0]);
+	double partChain = dOut_dNet * dError_dOut;
+	double dNet_dWx, dError_dWx;
+	double myWeight;
+	int outNodes = 1;
+	int outLayer = 2;
+	for(int z = outLayer; z > 0; z--){ //layer loop(don't want to iterate input.)
+		for(int j = 0; j < outNodes; j++){ //node loop
+			for (int i = 0; i < 2; i++){ //weightloop
+				dNet_dWx = myLayers[z-1].getAns(i);
+				myWeight = myLayers[z].getWeight(i,j); //only one node, will work on multi-node implementation.
+				dError_dWx = partChain * dNet_dWx; //finished chain rule
+				myWeight = myWeight - (learningRate * dError_dWx);
+				myLayers[z].writeWeight(myWeight,i,j);
+			}
+		}
+		outNodes = 10;
+	}
 }
 
 

@@ -32,6 +32,7 @@ Data::Data(){
 unsigned long
 Data::rnd(){
 	return rand();
+    //return 5;
 }
 
 Data::~Data(){
