@@ -36,22 +36,26 @@ int main(int argc, char const *argv[])
 	while(nodearray[zz] != -1){
 		zz++;
 	}
-	int cycles = 1;
+	int cycles = 5;//10000;
 	double result;
 	myNeuralNetwork->networkInit(nodearray);
-	for(int h = 0; h < cycles; h++){
+	int w = 1;
+    for(int h = 0; h < cycles; h++){
         for(int zz = 0; zz < 4; zz++){
+            cout << "Aeon: " << w;
             inputarray[0] = loc[zz].x;
             inputarray[1] = loc[zz].y;
             target = loc[zz].z;
             myNeuralNetwork->run(inputarray);
             result = myNeuralNetwork->results[0];
             //cout << "\n\nResult: "<< myNeuralNetwork->results[0] << "\n\n\n" << "Aeon: " << h+1 << '\n';
-            //myNeuralNetwork->learn(target, 0.2);
-            cout << "\n\n\nResult: " << result << "\n\n";
+            myNeuralNetwork->learn(target, 0.2);
+            cout << "\nResult: f(" <<loc[zz].x <<", " << loc[zz].y << ") = " << result << "\n\n\n";
+            w++;
+
         }
     }
-     cout << "\n\n\nResult: " << result << "\n\n";
+    //cout << "\n\n\nResult: " << result << "\n\n";
     cleanup();
 	return 0;
 }

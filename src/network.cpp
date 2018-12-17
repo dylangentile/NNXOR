@@ -1,6 +1,6 @@
 #include "network.h"
 #include <iostream>
-
+#include <math.h>
 
 
 
@@ -92,6 +92,10 @@ Layer::writeWeight(double newWeight, int whichWeight, int whichNode){
 	nodeLayer[whichNode].newWeight(whichWeight, newWeight);
 }
 
+int
+Layer::getID(int y){
+	return nodeLayer[y].mID;
+}
 
 Network::Network(){
 
@@ -189,9 +193,11 @@ Network::run(double *inputs){
 void
 Network::learn(double target, double learningRate){
 	double sqError = (1.0/2.0)*((target - results[0])*(target - results[0]));
-	std::cout << "\n\nSquared Error: " << sqError;
+	std::cout << "\nSquared Error: " << sqError;
 	//double totalError = sqError;
 	//double net = myLayers[2].getNet(0);
+
+	//std::cout << "hello";
 	double dError_dOut = results[0] - target;
 	double dOut_dNet = results[0] * (1 - results[0]);
 	double partChain = dOut_dNet * dError_dOut;
@@ -199,17 +205,36 @@ Network::learn(double target, double learningRate){
 	double myWeight;
 	int outNodes = 1;
 	int outLayer = 2;
+	int myID;
+	double *weightArray = new double[5];
+
 	for(int z = outLayer; z > 0; z--){ //layer loop(don't want to iterate input.)
 		for(int j = 0; j < outNodes; j++){ //node loop
 			for (int i = 0; i < 2; i++){ //weightloop
 				dNet_dWx = myLayers[z-1].getAns(i);
 				myWeight = myLayers[z].getWeight(i,j); //only one node, will work on multi-node implementation.
+				myID = myLayers[z].getID(j);
 				dError_dWx = partChain * dNet_dWx; //finished chain rule
 				myWeight = myWeight - (learningRate * dError_dWx);
-				myLayers[z].writeWeight(myWeight,i,j);
+				weightArray[myID] = std::nearbyint(myWeight * 100) / 100;
 			}
 		}
-		outNodes = 10;
+		outNodes = 2;
+	}
+	int h = 0;
+	int k = 0;
+	for(int g = -1; g < outLayer; g++){
+		if(g == 1){
+			k = 1;
+		} else{
+			k = 2;
+		}
+		for(int w = 0; w < k; w++){
+			double answer = weightArray[h];
+			myLayers[g+1].writeWeight(answer, w, g);
+
+			h++;
+		}
 	}
 }
 

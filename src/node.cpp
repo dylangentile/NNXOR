@@ -1,6 +1,7 @@
 #include "node.h"
 #include "function.h"
 #include <iostream>
+#include <math.h>
 
 Node::Node(){
 
@@ -75,6 +76,8 @@ Node::fetchWeight(int x){
 
 void 
 Node::newWeight(int whichWeight, double newValue){
-    mWeights[whichWeight] = newValue;
+    long double g;
+    g = std::nearbyint(newValue * 100) / 100;
+    mWeights[whichWeight] = g;
 }
 

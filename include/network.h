@@ -16,6 +16,7 @@ public:
 	double getAns(int x);
 	double getWeight(int x, int whichNode);
 	void writeWeight(double newWeight, int whichWeight, int whichNode);
+	int getID(int y);
 private:
 	NodeType mLayerType;
 	double *outputArray;
