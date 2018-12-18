@@ -201,12 +201,12 @@ Network::learn(double target, double learningRate){
 	double dError_dOut = results[0] - target;
 	double dOut_dNet = results[0] * (1 - results[0]);
 	double partChain = dOut_dNet * dError_dOut;
-	double dNet_dWx, dError_dWx;
-	double myWeight;
+	double dNet_dWx = 0, dError_dWx = 0;
+	double myWeight = 0;
 	int outNodes = 1;
 	int outLayer = 2;
-	int myID;
-	double *weightArray = new double[5];
+	int myID = 0;
+    double weightArray[5][2] = {0};
 
 	for(int z = outLayer; z > 0; z--){ //layer loop(don't want to iterate input.)
 		for(int j = 0; j < outNodes; j++){ //node loop
@@ -216,26 +216,27 @@ Network::learn(double target, double learningRate){
 				myID = myLayers[z].getID(j);
 				dError_dWx = partChain * dNet_dWx; //finished chain rule
 				myWeight = myWeight - (learningRate * dError_dWx);
-				weightArray[myID] = std::nearbyint(myWeight * 100) / 100;
+				weightArray[myID][i] = myWeight;
 			}
 		}
 		outNodes = 2;
 	}
-	int h = 0;
-	int k = 0;
-	for(int g = -1; g < outLayer; g++){
-		if(g == 1){
-			k = 1;
-		} else{
-			k = 2;
-		}
-		for(int w = 0; w < k; w++){
-			double answer = weightArray[h];
-			myLayers[g+1].writeWeight(answer, w, g);
-
-			h++;
-		}
-	}
+    int kk = 2;
+    int ww = 2;
+    for(int l = 1; l < outLayer+1; l++){
+        if(l == 2){
+            ww = 1;
+        }
+        for(int j = 0; j < ww; j++){
+            for(int h = 0; h < 2; h++){
+                myLayers[l].writeWeight(weightArray[kk][h], h, j);
+                kk++;
+            }
+        }
+    }
+    
+    
+    
 }
 
 

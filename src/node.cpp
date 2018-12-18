@@ -76,8 +76,6 @@ Node::fetchWeight(int x){
 
 void 
 Node::newWeight(int whichWeight, double newValue){
-    long double g;
-    g = std::nearbyint(newValue * 100) / 100;
-    mWeights[whichWeight] = g;
+    mWeights[whichWeight] = newValue;
 }
 

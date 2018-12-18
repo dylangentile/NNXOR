@@ -26,7 +26,7 @@ Data::Data(){
 	id = -1;
 	totalNodes = 0;
 	wsPerNode = 2;
-	seed = mix(clock(), time(NULL), getpid());
+    seed = 1;//mix(clock(), time(NULL), getpid());
 	srand(seed);
 }
 unsigned long

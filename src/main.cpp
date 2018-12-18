@@ -12,15 +12,15 @@ int main(int argc, char const *argv[])
 {
     
     Answers *loc = new Answers[4];
-    loc[0].x = 0.0;
-    loc[0].y = 0.0;
+    loc[0].x = 1.0;
+    loc[0].y = 1.0;
     loc[0].z = 0.0;
     loc[1].x = 1.0;
-    loc[1].y = 0.0;
-    loc[1].z = 1.0;
-    loc[2].x = 0.0;
+    loc[1].y = 1.0;
+    loc[1].z = 0.0;
+    loc[2].x = 1.0;
     loc[2].y = 1.0;
-    loc[2].z = 1.0;
+    loc[2].z = 0.0;
     loc[3].x = 1.0;
     loc[3].y = 1.0;
     loc[3].z = 0.0;
@@ -36,21 +36,23 @@ int main(int argc, char const *argv[])
 	while(nodearray[zz] != -1){
 		zz++;
 	}
-	int cycles = 5;//10000;
+	int cycles = 5;
 	double result;
 	myNeuralNetwork->networkInit(nodearray);
 	int w = 1;
     for(int h = 0; h < cycles; h++){
         for(int zz = 0; zz < 4; zz++){
-            cout << "Aeon: " << w;
-            inputarray[0] = loc[zz].x;
-            inputarray[1] = loc[zz].y;
+            inputarray[0] = loc[1].x;
+            inputarray[1] = loc[1].y;
             target = loc[zz].z;
             myNeuralNetwork->run(inputarray);
             result = myNeuralNetwork->results[0];
             //cout << "\n\nResult: "<< myNeuralNetwork->results[0] << "\n\n\n" << "Aeon: " << h+1 << '\n';
-            myNeuralNetwork->learn(target, 0.2);
-            cout << "\nResult: f(" <<loc[zz].x <<", " << loc[zz].y << ") = " << result << "\n\n\n";
+            myNeuralNetwork->learn(target, 0.002);
+            if(w%1 == 0){
+            	            cout << "\nAeon: " << w;
+            	cout << "\nResult: f(" <<loc[1].x <<", " << loc[zz].y << ") = " << result << "\n\n\n";
+            }
             w++;
 
         }
