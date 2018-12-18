@@ -185,10 +185,10 @@ Network::run(double *inputs){
     int i;
 	for(i = 0; i < layercount - 1; i++){
 		myLayers[i].input(outputs);
-		outputs = myLayers[i].output();
+		outputs = activation(myLayers[i].output());
 	}
     myLayers[i].input(outputs);
-    results = myLayers[i].output();
+    results = activation(myLayers[i].output());
 }
 void
 Network::learn(double target, double learningRate){
@@ -207,20 +207,33 @@ Network::learn(double target, double learningRate){
 	int outLayer = 2;
 	int myID = 0;
     double weightArray[5][2] = {0};
-
-	for(int z = outLayer; z > 0; z--){ //layer loop(don't want to iterate input.)
-		for(int j = 0; j < outNodes; j++){ //node loop
-			for (int i = 0; i < 2; i++){ //weightloop
-				dNet_dWx = myLayers[z-1].getAns(i);
-				myWeight = myLayers[z].getWeight(i,j); //only one node, will work on multi-node implementation.
-				myID = myLayers[z].getID(j);
-				dError_dWx = partChain * dNet_dWx; //finished chain rule
-				myWeight = myWeight - (learningRate * dError_dWx);
-				weightArray[myID][i] = myWeight;
-			}
-		}
-		outNodes = 2;
+    int z = outLayer;
+    int j = 0;
+	for (int i = 0; i < 2; i++){ //weightloop
+		dNet_dWx = myLayers[z-1].getAns(i);
+		myWeight = myLayers[z].getWeight(i,j);
+		myID = myLayers[z].getID(j);
+		dError_dWx = partChain * dNet_dWx;
+		myWeight = myWeight - (learningRate * dError_dWx);
+		weightArray[myID][i] = myWeight;
 	}
+	double dError_dNet = dError_dOut * dOut_dNet;
+	double dNet_dOut;
+	for (int i = 0; i < 2; i++)
+	{
+		for(int g = 0; g < 2; g++)
+		{
+			myID = myLayers[z].getID(i);
+			myWeight = myLayers[1].getWeight(g,i);
+			dNet_dOut = myWeight;
+			dError_dNet = dError_dOut * dNet_dOut;
+			dOut_dNet = myLayers[0].getAns(g) * (1- myLayers[0].getAns(g));
+			double dEtotal_dWx = dError_dOut * dOut_dNet * dNet_dWx;
+			weightArray[myID][g] = myWeight - (learningRate * dEtotal_dWx);
+		}
+	}
+		outNodes = 2;
+	
     int kk = 2;
     int ww = 2;
     for(int l = 1; l < outLayer+1; l++){
@@ -234,9 +247,6 @@ Network::learn(double target, double learningRate){
             }
         }
     }
-    
-    
-    
 }
 
 
