@@ -1,0 +1,55 @@
+
+//output layer weights calculation
+
+dE_total/dW_x calculation
+{
+E_total = sum(sqerror);
+
+dE_total/dW_x = dE_total/dOut_o1 * dOut_o1/dNet_o1 * dNet_o1/dW_x;
+
+dE_total/dOut_o1 = out_o1 - target;
+
+
+dOut_o1/dNet_o1 = out_o1 * (1 - out_o1);
+
+dNet_o1/dW_x = out_prevNode;
+
+dE_total/dW_x = (out_o1-target)*(out_o1 *(1 - out_o1))*out_prevNode;
+}
+
+
+W_newX = W_x - (learningRate * dE_total/dW_x);
+
+
+//hidden weights calculation
+
+
+
+h1 signifies of hidden node 1, i1 input 1
+
+
+{
+	dE_total/dW_x = dE_total/dOut_h1 * dOut_h1/dNet_h1 * dNet_h1/dW_x
+
+	{
+		dE_total/dOut_h1 = dE_o1/dOut_h1 *  dNet_o1/dOut_h1; 
+
+		dE_o1/dOut_h1 = (out_o1 - target) * (out_o1 *(1 - out_o1)); //already calculated factors.
+
+		dNet_o1/dOut_h1 = weight going to out node.
+	}
+	dOut_h1/dNet_h1 = out_h1 * (1 - out_h1);
+
+	dNet_h1/dW_x = the input of the input node it connects to.
+
+
+
+
+
+
+
+
+
+}
+
+

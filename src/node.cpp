@@ -52,7 +52,15 @@ Node::nodeInit(NodeType tmpType, int tmpConnections, int tmpID){
 
 void
 Node::mInput(double in, int connNum){
-	outputTerms[connNum] = in * mWeights[connNum];
+	if(mType == mNode_INPUT)
+    {
+        outputTerms[connNum] = in;
+    } 
+    else
+    {
+
+        outputTerms[connNum] = in * mWeights[connNum];
+    }
 }
 
 double

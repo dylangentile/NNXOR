@@ -185,85 +185,54 @@ Network::run(double *inputs){
     int i;
 	for(i = 0; i < layercount - 1; i++){
 		myLayers[i].input(outputs);
-		outputs = activation(myLayers[i].output());
+		outputs = myLayers[i].output();
 	}
     myLayers[i].input(outputs);
-    results = activation(myLayers[i].output());
+    results = myLayers[i].output();
+    results[0] = activation(results[0]);
 }
 void
 Network::learn(double target, double learningRate){
-	double sqError = (1.0/2.0)*((target - results[0])*(target - results[0]));
-	std::cout << "\nSquared Error: " << sqError;
-	//double totalError = sqError;
-	//double net = myLayers[2].getNet(0);
-
-	//std::cout << "hello";
-	double dError_dOut = results[0] - target;
-	double dOut_dNet = results[0] * (1 - results[0]);
-	double partChain = dOut_dNet * dError_dOut;
-	double dNet_dWx = 0, dError_dWx = 0;
-	double myWeight = 0;
-	int outNodes = 1;
-	int outLayer = 2;
-	int myID = 0;
-    double weightArray[5][2] = {0};
-    int z = outLayer;
-    int j = 0;
-	for (int i = 0; i < 2; i++){ //weightloop
-		dNet_dWx = myLayers[z-1].getAns(i);
-		myWeight = myLayers[z].getWeight(i,j);
-		myID = myLayers[z].getID(j);
-		dError_dWx = partChain * dNet_dWx;
-		myWeight = myWeight - (learningRate * dError_dWx);
-		weightArray[myID][i] = myWeight;
-	}
-	double dError_dNet = dError_dOut * dOut_dNet;
-	double dNet_dOut;
-	for (int i = 0; i < 2; i++)
-	{
-		for(int g = 0; g < 2; g++)
-		{
-			myID = myLayers[z].getID(i);
-			myWeight = myLayers[1].getWeight(g,i);
-			dNet_dOut = myWeight;
-			dError_dNet = dError_dOut * dNet_dOut;
-			dOut_dNet = myLayers[0].getAns(g) * (1- myLayers[0].getAns(g));
-			double dEtotal_dWx = dError_dOut * dOut_dNet * dNet_dWx;
-			weightArray[myID][g] = myWeight - (learningRate * dEtotal_dWx);
-		}
-	}
-		outNodes = 2;
+	int nodeID = myLayers[2].getID(0);
+	double weightArray[3][2] = {0};
+	double theWeight = 0;
+	double dE_total_dW_x = 0;
 	
-    int kk = 2;
-    int ww = 2;
-    for(int l = 1; l < outLayer+1; l++){
-        if(l == 2){
-            ww = 1;
-        }
-        for(int j = 0; j < ww; j++){
-            for(int h = 0; h < 2; h++){
-                myLayers[l].writeWeight(weightArray[kk][h], h, j);
-                kk++;
-            }
-        }
-    }
+	for(int i = 0; i < 2; i++) //loop through output weights
+	{
+		theWeight = myLayers[2].getWeight(i, 0);
+		dE_total_dW_x = (results[0] - target) * (results[0] *(1 - results[0])) * myLayers[1].getAns(i);
+		weightArray[nodeID][i] = theWeight - (learningRate * dE_total_dW_x);
+	}
+
+	double dE_total_dOut_h1 = 0;
+
+	for(int j = 0; j < 2; j++) //loop through nodes
+	{
+		nodeID = myLayers[1].getID(j);
+		for(int i = 0; i < 2; i++) //loop through memeber weights
+		{
+			theWeight = myLayers[1].getWeight(i, j);
+			dE_total_dOut_h1 = ((results[0] - target) * (results[0] *(1 - results[0]))) * getWeight(j , 0); // j is the weight that corresponds to this node's output
+			dE_total_dW_x = dE_total_dOut_h1 * (myLayers[1].getAns(j) * (1 - myLayers.getAns(j))) * myLayers[0].getAns(i);
+			weightArray[nodeID][i] = theWeight - (learningRate * dE_total_dW_x);
+		}
+
+	}
+
+	int whichLayer = 1;
+	int offset = -2;
+	for(int j = 2; j < 5; j++)
+	{
+		for(int i = 0; i < 2; i++){
+			myLayers[whichLayer].setWeight(weightArray[j][i], i, j - offset);
+		}
+
+		if(j == 3)
+		{
+			whichLayer = 2;
+			offset = -4; 
+		}
+
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

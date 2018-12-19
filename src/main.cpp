@@ -36,7 +36,7 @@ int main(int argc, char const *argv[])
 	while(nodearray[zz] != -1){
 		zz++;
 	}
-	int cycles = 5;
+	int cycles = 10000;
 	double result;
 	myNeuralNetwork->networkInit(nodearray);
 	int w = 1;
@@ -48,8 +48,8 @@ int main(int argc, char const *argv[])
             myNeuralNetwork->run(inputarray);
             result = myNeuralNetwork->results[0];
             //cout << "\n\nResult: "<< myNeuralNetwork->results[0] << "\n\n\n" << "Aeon: " << h+1 << '\n';
-            myNeuralNetwork->learn(target, 0.002);
-            if(w%1 == 0){
+            myNeuralNetwork->learn(target, 0.2);
+            if(w%1000 == 0){
             	            cout << "\nAeon: " << w;
             	cout << "\nResult: f(" <<loc[1].x <<", " << loc[zz].y << ") = " << result << "\n\n\n";
             }
