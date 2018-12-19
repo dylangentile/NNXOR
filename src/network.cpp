@@ -14,8 +14,6 @@ Layer::~Layer(){
 
 }
 
-
-
 void
 Layer::layerInit(int layerID, int mNodes, int mPrevmNodes, NodeType layerType){ //mPrevmNodes means in Layer[i-1] how many nodes are there. IE How many connections does each node have;
 	myNodes = mNodes;
