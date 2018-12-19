@@ -213,8 +213,8 @@ Network::learn(double target, double learningRate){
 		for(int i = 0; i < 2; i++) //loop through memeber weights
 		{
 			theWeight = myLayers[1].getWeight(i, j);
-			dE_total_dOut_h1 = ((results[0] - target) * (results[0] *(1 - results[0]))) * getWeight(j , 0); // j is the weight that corresponds to this node's output
-			dE_total_dW_x = dE_total_dOut_h1 * (myLayers[1].getAns(j) * (1 - myLayers.getAns(j))) * myLayers[0].getAns(i);
+			dE_total_dOut_h1 = ((results[0] - target) * (results[0] *(1 - results[0]))) * myLayers[2].getWeight(j , 0); // j is the weight that corresponds to this node's output
+			dE_total_dW_x = dE_total_dOut_h1 * (myLayers[1].getAns(j) * (1 - myLayers[1].getAns(j))) * myLayers[0].getAns(i);
 			weightArray[nodeID][i] = theWeight - (learningRate * dE_total_dW_x);
 		}
 
@@ -225,7 +225,7 @@ Network::learn(double target, double learningRate){
 	for(int j = 2; j < 5; j++)
 	{
 		for(int i = 0; i < 2; i++){
-			myLayers[whichLayer].setWeight(weightArray[j][i], i, j - offset);
+			myLayers[whichLayer].writeWeight(weightArray[j][i], i, j + offset);
 		}
 
 		if(j == 3)
