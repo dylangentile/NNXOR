@@ -15,12 +15,15 @@ int main(int argc, char const *argv[])
     loc[0].x = 0.0;
     loc[0].y = 0.0;
     loc[0].z = 1.0;
+    
     loc[1].x = 1.0;
     loc[1].y = 0.0;
     loc[1].z = 1.0;
+    
     loc[2].x = 0.0;
     loc[2].y = 1.0;
     loc[2].z = 1.0;
+    
     loc[3].x = 1.0;
     loc[3].y = 1.0;
     loc[3].z = 0.0;
@@ -36,7 +39,7 @@ int main(int argc, char const *argv[])
 	while(nodearray[zz] != -1){
 		zz++;
 	}
-	int cycles = 500;
+	int cycles = 25000;
 	double result;
 	myNeuralNetwork->networkInit(nodearray);
 	int w = 1;
@@ -47,8 +50,9 @@ int main(int argc, char const *argv[])
             target = loc[zz].z;
             myNeuralNetwork->run(inputarray);
             result = myNeuralNetwork->results[0];
+           // cout << "\n\n" << result << '\n';
             //cout << "\n\nResult: "<< myNeuralNetwork->results[0] << "\n\n\n" << "Aeon: " << h+1 << '\n';
-            myNeuralNetwork->learn(target, 0.8);
+            myNeuralNetwork->learn(target, 0.2);
             if(w%1 == 0){
             	cout << "\nAeon: " << w;
             	cout << "\nResult: f(" <<loc[zz].x <<", " << loc[zz].y << ") = " << result << "\n\n\n";

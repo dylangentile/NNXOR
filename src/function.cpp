@@ -4,6 +4,8 @@
 #include <ctime>
 #include <unistd.h>
 #include <random>   
+#include <iostream>
+
 
 using namespace std;
 
@@ -54,6 +56,7 @@ double activation(long double x){
 	//y = (M_1_PI * (atan(x/*- 50.0*/))) + 0.5;
 	y = (double)1/((double)1+(double)exp((double)-1*x));
 	ans = y;
+	//cout << "\nActivation(" << x << ") = " << ans;
 	return ans;
 }
 

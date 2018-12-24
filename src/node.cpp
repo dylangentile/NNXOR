@@ -71,6 +71,7 @@ Node::mOutput(){
 	}
     result += bias;
     mNet = result;
+    //std::cout << "\n"<<mNet <<"\n";
     ans = activation(result);
 	return ans;
 

@@ -79,6 +79,11 @@ Layer::getWeight(int x, int whichNode){
 	return nodeLayer[whichNode].fetchWeight(x);
 }
 
+double
+Layer::getBias(int g){
+	return nodeLayer[g].fetchBias();
+}
+
 void
 Layer::writeWeight(double newWeight, int whichWeight, int whichNode){
 	nodeLayer[whichNode].newWeight(whichWeight, newWeight);
@@ -181,15 +186,19 @@ Network::run(double *inputs){
 	}
     myLayers[i].input(outputs);
     results = myLayers[i].output();
-    results[0] = activation(results[0]);
+    results[0] = results[0];
 }
 void
-Network::learn(double target, double learningRate){
+Network::learn(double target, double learningRate)
+{
 	int nodeID = myLayers[2].getID(0);
-	double weightArray[3][2] = {0};
+    double weightArray[5][2] = {0};
+    
 	double theWeight = 0;
 	double dE_total_dW_x = 0;
-	
+    double dE_total_dOut_h1 = 0;
+
+    
 	for(int i = 0; i < 2; i++) //loop through output weights
 	{
 		theWeight = myLayers[2].getWeight(i, 0);
@@ -197,8 +206,10 @@ Network::learn(double target, double learningRate){
 		weightArray[nodeID][i] = theWeight - (learningRate * dE_total_dW_x);
 	}
 
-	double dE_total_dOut_h1 = 0;
 
+     
+    
+    
 	for(int j = 0; j < 2; j++) //loop through nodes
 	{
 		nodeID = myLayers[1].getID(j);
@@ -216,7 +227,9 @@ Network::learn(double target, double learningRate){
 	int offset = -2;
 	for(int j = 2; j < 5; j++)
 	{
-		for(int i = 0; i < 2; i++){
+		for(int i = 0; i < 2; i++)
+        {
+           // std::cout << "i: " << i << "  j: " << j << "    layer: " << whichLayer << "   offset: " << offset << "   weight: " << weightArray[j][i] << "\n";
 			myLayers[whichLayer].writeWeight(weightArray[j][i], i, j + offset);
 		}
 
@@ -225,6 +238,10 @@ Network::learn(double target, double learningRate){
 			whichLayer = 2;
 			offset = -4; 
 		}
-
+        
+        
+       // std::cout << "\n" << j;
 	}
+    //std::cout << "yurmum!";
+    
 }
