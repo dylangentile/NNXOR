@@ -17,6 +17,7 @@ public:
 	double getWeight(int x, int whichNode);
 	void writeWeight(double newWeight, int whichWeight, int whichNode);
 	int getID(int y);
+	double getBias(int g);
 private:
 	NodeType mLayerType;
 	double *outputArray;

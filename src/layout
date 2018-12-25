@@ -1,6 +1,6 @@
 
 //output layer weights calculation
-
+/*
 dE_total/dW_x calculation
 {
 E_total = sum(sqerror);
@@ -51,5 +51,9 @@ h1 signifies of hidden node 1, i1 input 1
 
 
 }
+*/
+
+
+
 
 

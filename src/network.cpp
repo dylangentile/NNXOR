@@ -192,36 +192,39 @@ void
 Network::learn(double target, double learningRate)
 {
 	int nodeID = myLayers[2].getID(0);
-    double weightArray[5][2] = {0};
+    double weightArray[5][3] = {0};
     
 	double theWeight = 0;
 	double dE_total_dW_x = 0;
     double dE_total_dOut_h1 = 0;
-
+    double theNet = myLayers[2].getNet(0);
     
 	for(int i = 0; i < 2; i++) //loop through output weights
 	{
+
 		theWeight = myLayers[2].getWeight(i, 0);
-		dE_total_dW_x = (results[0] - target) * (results[0] *(1 - results[0])) * myLayers[1].getAns(i);
+		dE_total_dW_x = 2 * (results[0] - target) * (activation(theNet) * (1 - activation(theNet))) * myLayers[1].getAns(i);
 		weightArray[nodeID][i] = theWeight - (learningRate * dE_total_dW_x);
 	}
 
+	//calculate new bias
 
-     
+	double theBias = myLayers[2].getBias(0);
+
+	double dE_total_dBias = (activation(theNet)*(1-activation(theNet)))*2*(results[0] - target);
+	weightArray[nodeID][2] = theBias - (learningRate * dE_total_dBias);
+
+    //a(1)_0
+    theNet = myLayers[1].getNet(0);
+    double dE_total_dpreAct = dE_total_dBias * weightArray[4][0];
+    double dCost_dPrevWeight = dE_total_dpreAct * (activation(theNet) * (1-activation(theNet))) * myLayers[0].getAns(0);
+    weightArray[3][0] = myLayers[1].getWeight(0,0) - (learningRate * dCost_dPrevWeight);
+
+    
+
+
     
     
-	for(int j = 0; j < 2; j++) //loop through nodes
-	{
-		nodeID = myLayers[1].getID(j);
-		for(int i = 0; i < 2; i++) //loop through memeber weights
-		{
-			theWeight = myLayers[1].getWeight(i, j);
-			dE_total_dOut_h1 = ((results[0] - target) * (results[0] *(1 - results[0]))) * myLayers[2].getWeight(j , 0); // j is the weight that corresponds to this node's output
-			dE_total_dW_x = dE_total_dOut_h1 * (myLayers[1].getAns(j) * (1 - myLayers[1].getAns(j))) * myLayers[0].getAns(i);
-			weightArray[nodeID][i] = theWeight - (learningRate * dE_total_dW_x);
-		}
-
-	}
 
 	int whichLayer = 1;
 	int offset = -2;
@@ -229,7 +232,6 @@ Network::learn(double target, double learningRate)
 	{
 		for(int i = 0; i < 2; i++)
         {
-           // std::cout << "i: " << i << "  j: " << j << "    layer: " << whichLayer << "   offset: " << offset << "   weight: " << weightArray[j][i] << "\n";
 			myLayers[whichLayer].writeWeight(weightArray[j][i], i, j + offset);
 		}
 
@@ -240,8 +242,6 @@ Network::learn(double target, double learningRate)
 		}
         
         
-       // std::cout << "\n" << j;
 	}
-    //std::cout << "yurmum!";
     
 }

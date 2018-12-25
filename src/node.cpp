@@ -88,3 +88,7 @@ Node::newWeight(int whichWeight, double newValue){
     mWeights[whichWeight] = newValue;
 }
 
+double
+Node::fetchBias(){
+    return bias;
+}

@@ -25,6 +25,7 @@ public:
 	double mNet, ans;
 	double fetchWeight(int x);
 	void newWeight(int whichWeight, double newValue);
+	double fetchBias();
 private:
 
 	NodeType mType;
