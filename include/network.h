@@ -1,42 +1,28 @@
 #pragma once
 #include "function.h"
-#include "node.h"
 
 
-class Layer
+
+typedef struct 
 {
-public:
-	Layer();
-	~Layer();
-	void layerInit(int layerID, int mNodes, int mPrevmNodes, NodeType layerType);
-	void input(double *inputs);
-	int myNodes;
-	double *output();
-	double getNet(int x);
-	double getAns(int x);
-	double getWeight(int x, int whichNode);
-	void writeWeight(double newWeight, int whichWeight, int whichNode);
-	int getID(int y);
-	double getBias(int g);
-private:
-	NodeType mLayerType;
-	double *outputArray;
-	Node *nodeLayer;
-	int prevNodes;
-
-}; 
-
+	double value;	
+} Weight;
 
 class Network
 {
 public:
 	Network();
 	~Network();
-	double *results;
-	void networkInit(int *nodes);
-	void run(double *inputs);
-	void learn(double target, double learningRate);
-	int layercount;
+	void initialize(int *array);
+	void forwardPropagation(double *input);
+	void backPropagation(double target, double rate);
+	int *layout;
+	int layers;
+	double biasArray[5];
+	double hiddenNetArray[2];
+	double hiddenOutArray[2];
+	double finNet, finOut;
+	double *input;
+	Weight k[2][2][2];
 private:
-	Layer *myLayers;
 };

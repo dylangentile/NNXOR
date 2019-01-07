@@ -60,7 +60,10 @@ double activation(long double x){
 	return ans;
 }
 
-
+double dActivation(long double x){
+	x = activation(x);
+	return x*(1 - x);
+}
 
 int returnID(){
 	mydata->id++;

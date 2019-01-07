@@ -20,7 +20,7 @@ private:
 unsigned long randomNum(int x, int y);
 
 Data *getNodeInfo();
-
+double dActivation(long double x);
 double activation(long double x);
 void insNodesTotal(int y);
 void nodeFill(double *weights, double bias, int nodeId);

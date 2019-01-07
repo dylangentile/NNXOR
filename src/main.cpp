@@ -10,11 +10,24 @@ typedef struct{
 
 int main(int argc, char const *argv[])
 {
-    
+    int cycles = 250000;
+    int mod = 10000;
+
+    char x[2];
+
+
+    if(argc == 2){
+        char x[2];
+        x[0] = *argv[0];
+        x[1] = *argv[1];
+        cycles = (int)x[0] - 48;
+        mod = (int)x[1] - 48;
+    }
+
     Answers *loc = new Answers[4];
     loc[0].x = 0.0;
     loc[0].y = 0.0;
-    loc[0].z = 1.0;
+    loc[0].z = 0.0;
     
     loc[1].x = 1.0;
     loc[1].y = 0.0;
@@ -32,36 +45,29 @@ int main(int argc, char const *argv[])
     double *inputarray;
     double target;
     inputarray = new double[nodearray[0]];
-    
 	Network *myNeuralNetwork = new Network;
-	
-	int zz = 0;
-	while(nodearray[zz] != -1){
-		zz++;
-	}
-	int cycles = 25000;
-	double result;
-	myNeuralNetwork->networkInit(nodearray);
-	int w = 1;
+    myNeuralNetwork->initialize(nodearray);
+	int w = 0;
     for(int h = 0; h < cycles; h++){
         for(int zz = 0; zz < 4; zz++){
             inputarray[0] = loc[zz].x;
             inputarray[1] = loc[zz].y;
             target = loc[zz].z;
-            myNeuralNetwork->run(inputarray);
-            result = myNeuralNetwork->results[0];
-           // cout << "\n\n" << result << '\n';
-            //cout << "\n\nResult: "<< myNeuralNetwork->results[0] << "\n\n\n" << "Aeon: " << h+1 << '\n';
-            myNeuralNetwork->learn(target, 0.2);
-            if(w%1 == 0){
-            	cout << "\nAeon: " << w;
-            	cout << "\nResult: f(" <<loc[zz].x <<", " << loc[zz].y << ") = " << result << "\n\n\n";
+            myNeuralNetwork->forwardPropagation(inputarray);
+            myNeuralNetwork->backPropagation(target, 0.5);
+            
+            if(w > 999994){
+                cout << "\nAeon: " << w << "\nf(" << inputarray[0] << ", " << inputarray[1] << ") = " << myNeuralNetwork->finOut << "\n";
+            }
+            else if(w%mod == 0){
+            cout << "\nAeon: " << w << "\nf(" << inputarray[0] << ", " << inputarray[1] << ") = " << myNeuralNetwork->finOut << "\n";
             }
             w++;
 
         }
     }
     //cout << "\n\n\nResult: " << result << "\n\n";
+    
     cleanup();
 	return 0;
 }
