@@ -10,8 +10,8 @@ typedef struct{
 
 int main(int argc, char const *argv[])
 {
-    int cycles = 250000;
-    int mod = 10000;
+    int cycles = 2500000;
+    int mod = 100000;
 
     char x[2];
 
@@ -54,9 +54,9 @@ int main(int argc, char const *argv[])
             inputarray[1] = loc[zz].y;
             target = loc[zz].z;
             myNeuralNetwork->forwardPropagation(inputarray);
-            myNeuralNetwork->backPropagation(target, 0.5);
+            myNeuralNetwork->backPropagation(target, 0.1);
             
-            if(w > 999994){
+            if(w > 9999994){
                 cout << "\nAeon: " << w << "\nf(" << inputarray[0] << ", " << inputarray[1] << ") = " << myNeuralNetwork->finOut << "\n";
             }
             else if(w%mod == 0){
