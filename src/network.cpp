@@ -1,6 +1,7 @@
 #include "network.h"
 #include "function.h"
 #include <iostream>
+#include <fstream>
 
 
 Network::Network(){
