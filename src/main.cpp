@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include "network.h"
 #include "function.h"
 using namespace std;
@@ -10,7 +11,7 @@ typedef struct{
 
 int main(int argc, char const *argv[])
 {
-    int cycles = 250000;
+    int cycles = 2500;
     int mod = 10000;
 
     char x[2];
@@ -41,6 +42,14 @@ int main(int argc, char const *argv[])
     loc[3].y = 1.0;
     loc[3].z = 0.0;
     
+    string zeroLoc = "\"f(0 ,0)\"";
+    string oneLoc = "\"f(1 ,0)\"";
+    string twoLoc = "\"f(0 ,1)\"";
+    string threeLoc = "\"f(1,1)\"";
+
+
+
+
     int nodearray[4] = {2,2,1,-1}; //for now max of 3 layers.
     double *inputarray;
     double target;
@@ -56,12 +65,25 @@ int main(int argc, char const *argv[])
             myNeuralNetwork->forwardPropagation(inputarray);
             myNeuralNetwork->backPropagation(target, 0.5);
             
+            if(zz == 0){
+                zeroLoc += "," + to_string(myNeuralNetwork->finOut);
+            }else if(zz == 1){
+                oneLoc += "," + to_string(myNeuralNetwork->finOut);
+            }else if(zz == 2){
+                twoLoc += "," + to_string(myNeuralNetwork->finOut);
+            }else {
+                threeLoc += "," + to_string(myNeuralNetwork->finOut);
+
+            }
+
+            /*
             if(w > 999994){
                 cout << "\nAeon: " << w << "\nf(" << inputarray[0] << ", " << inputarray[1] << ") = " << myNeuralNetwork->finOut << "\n";
             }
             else if(w%mod == 0){
             cout << "\nAeon: " << w << "\nf(" << inputarray[0] << ", " << inputarray[1] << ") = " << myNeuralNetwork->finOut << "\n";
             }
+            */
             w++;
 
         }
@@ -69,6 +91,15 @@ int main(int argc, char const *argv[])
     //cout << "\n\n\nResult: " << result << "\n\n";
     
     cleanup();
+
+    ofstream myfile;
+    myfile.open("export.csv");
+    myfile << zeroLoc + "\n" + oneLoc + "\n" + twoLoc + "\n" + threeLoc;
+    myfile.close();
+
+
+
+
 	return 0;
 }
 
