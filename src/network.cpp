@@ -118,18 +118,20 @@ Network::networkInit(int *nodes){ //in order for this to work a 4 value array mu
 			numofHiddenNodeLayers++;
 		}
 		numofLayers++;
-
+		
 	}
 
 	numofInNodes = nodes[0];
 	numofOutNodes = nodes[numofLayers - 1];
-	int numofHiddenNodesPerLayer[numofHiddenNodeLayers]; //ordered by layer;
+	const int numofHiddenNodeLayersConst = numofHiddenNodeLayers;
+	//TODO: fix this
+	int numofHiddenNodesPerLayer[1]; //int numofHiddenNodesPerLayer[numofHiddenNodeLayersConst]; //ordered by layer;
 
 	for (int i = 0; i < numofHiddenNodeLayers; i++)
 	{
         numofHiddenNodesPerLayer[i] = nodes[i + 1]; //plus one since we're counting from 0 hidden layers but the first hidden layer is nodes[1] not nodes[0];
 	}
-	int numofHiddenNodes;
+	int numofHiddenNodes = 0;
 	for (int i = 0; i < numofHiddenNodeLayers; i++)
 	{
 		numofHiddenNodes = numofHiddenNodes + nodes[i+1];

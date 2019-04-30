@@ -2,7 +2,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <ctime>
-#include <unistd.h>
+//#include <unistd.h>
 #include <random>   
 #include <iostream>
 
@@ -28,7 +28,7 @@ Data::Data(){
 	id = -1;
 	totalNodes = 0;
 	wsPerNode = 2;
-    seed = mix(clock(), time(NULL), getpid());
+    seed = mix(clock(), time(NULL), 6/*, getpid()*/);
 	srand(seed);
 }
 unsigned long
